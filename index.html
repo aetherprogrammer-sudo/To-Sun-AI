@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Sun AI | From Zero to Millionaire</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sun-color: #ffca2c;
+            --sun-glow: #ff8c00;
+            --star-speed: 50s;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: radial-gradient(circle at center, #1a1c2c 0%, #0a0a0a 100%);
+            color: white;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Starfield Background */
+        #star-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: auto;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.5;
+            cursor: pointer;
+            box-shadow: 0 0 5px white;
+            animation: moveStar var(--star-speed) linear infinite;
+        }
+
+        @keyframes moveStar {
+            from { transform: translateY(0); }
+            to { transform: translateY(-100vh); }
+        }
+
+        .warp-speed .star {
+            animation-duration: 1.5s !important;
+            box-shadow: 0 0 20px white;
+        }
+
+        /* Motion Background Elements */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+            opacity: 0.15;
+            animation: orbMove 20s infinite alternate;
+            pointer-events: none;
+        }
+
+        @keyframes orbMove {
+            from { transform: translate(-10%, -10%); }
+            to { transform: translate(10%, 10%); }
+        }
+
+        /* The Sun Component */
+        .sun-container {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .sun {
+            width: 80px;
+            height: 80px;
+            background: var(--sun-color);
+            border-radius: 50%;
+            box-shadow: 0 0 40px var(--sun-glow), 0 0 100px var(--sun-glow);
+            animation: pulse 4s infinite ease-in-out;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); filter: brightness(1); }
+            50% { transform: scale(1.05); filter: brightness(1.2); }
+        }
+
+        #sun-message {
+            margin-top: 15px;
+            font-weight: 800;
+            color: var(--sun-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.4s ease;
+            text-shadow: 0 0 10px var(--sun-glow);
+            pointer-events: none;
+        }
+
+        .show-message #sun-message {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Chat Interface */
+        .chat-card {
+            width: 90%;
+            max-width: 750px;
+            height: 85vh;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 32px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .chat-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,0.1) transparent;
+        }
+
+        .message {
+            max-width: 85%;
+            padding: 14px 20px;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            animation: fadeIn 0.3s ease forwards;
+            white-space: pre-wrap;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .ai-message {
+            align-self: flex-start;
+            background: rgba(255, 255, 255, 0.07);
+            color: #e2e8f0;
+            border-bottom-left-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .input-container {
+            padding: 20px;
+            display: flex;
+            gap: 12px;
+        }
+
+        input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 14px 20px;
+            color: white;
+            outline: none;
+        }
+
+        input:focus { border-color: var(--sun-color); }
+
+        button {
+            background: var(--sun-color);
+            color: black;
+            border-radius: 16px;
+            padding: 0 24px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .loading-dots span {
+            animation: blink 1.4s infinite both;
+            height: 6px; width: 6px; background: currentColor;
+            display: inline-block; border-radius: 50%; margin: 0 2px;
+        }
+        @keyframes blink { 0%, 80%, 100% { opacity: 0; } 40% { opacity: 1; } }
+    </style>
+</head>
+<body>
+    <div id="star-container"></div>
+    <div class="orb" style="width: 400px; height: 400px; background: #3b82f6; top: -100px; left: -100px;"></div>
+    <div class="orb" style="width: 300px; height: 300px; background: #ffca2c; bottom: -50px; right: -50px;"></div>
+
+    <div class="sun-container" id="sun-btn" onclick="igniteSun()">
+        <div class="sun"></div>
+        <div id="sun-message">From zero to Millionaire</div>
+    </div>
+
+    <div class="chat-card">
+        <div class="chat-header">
+            <h1 class="text-xl font-extrabold tracking-tight text-white">
+                <span style="color: var(--sun-color)">TO-SUN</span> AI
+            </h1>
+            <p class="text-[10px] text-slate-400 mt-1 uppercase tracking-widest font-semibold">Zero to Millionaire Mentor</p>
+        </div>
+
+        <div class="chat-messages" id="chat-box">
+            <div class="message ai-message">Welcome. I am To-Sun AI. I was created by Abraham Muruts to help you grow. How can I illuminate your path to success today?</div>
+        </div>
+
+        <div class="input-container">
+            <input type="text" id="user-input" placeholder="Ask about your future..." onkeypress="if(event.key==='Enter') sendMessage()">
+            <button onclick="sendMessage()">SEND</button>
+        </div>
+    </div>
+
+    <script>
+        const apiKey = ""; 
+        const chatBox = document.getElementById('chat-box');
+        const userInput = document.getElementById('user-input');
+        const starContainer = document.getElementById('star-container');
+
+        function createStars() {
+            for (let i = 0; i < 150; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                const size = (Math.random() * 3) + 'px';
+                star.style.width = size; star.style.height = size;
+                star.style.left = Math.random() * 100 + 'vw';
+                star.style.top = Math.random() * 100 + 'vh';
+                star.style.animationDelay = Math.random() * 50 + 's';
+                star.onclick = (e) => { e.stopPropagation(); activateWarp(); };
+                starContainer.appendChild(star);
+            }
+        }
+
+        function activateWarp() {
+            starContainer.classList.add('warp-speed');
+            setTimeout(() => starContainer.classList.remove('warp-speed'), 3000);
+        }
+
+        function igniteSun() {
+            const container = document.getElementById('sun-btn');
+            container.classList.add('show-message');
+            setTimeout(() => container.classList.remove('show-message'), 3000);
+        }
+
+        const GUIDE_TEXT = `Becoming an AI Founder: A Guide for Teenagers Aged 14 to 18
+
+In today’s world, artificial intelligence is transforming every industry, from healthcare and education to agriculture and business. For young people between 14 and 18 years old, this presents an extraordinary opportunity. You do not need to wait until university or until you have a full-time job to begin building in AI. Many successful founders started exactly where you are — learning to code in their bedrooms while still in school. With dedication, smart learning, disciplined time management, and the avoidance of common pitfalls, you and your friends can lay the foundation to become AI founders. The journey requires consistent effort, but the rewards are immense: creating useful technology, solving real problems, and potentially building a company that makes a positive impact.
+
+The first and most important step is to take action immediately. At this age, your brain is highly adaptable, and you have more free time than you will have later in life. Begin by treating your group of friends as a mini startup team. Assign roles based on strengths — one person can focus on coding, another on designing the user experience, another on researching new AI ideas, and someone on sharing your progress online. Set a clear weekly goal: spend at least 10 to 15 hours learning and building. Start small but ship something every two to three weeks. For example, a 14- or 15-year-old might focus on mastering Python and completing a simple project like a chatbot or image classifier. By 16 or 17, the team can build more advanced applications, such as an AI tool that helps farmers in Ethiopia predict crop yields or a study assistant for students. At 18, the goal shifts toward launching a real product and finding your first users. Consistency beats talent. A teenager who codes regularly for two years will far outperform someone who only dreams about it.
+
+What should you learn? The path is clearer than many people think. Start with Python, the most widely used programming language in AI because it is simple yet powerful. Once comfortable with Python, focus on the essential mathematics: linear algebra, probability and statistics, and basic calculus. These topics do not need to be mastered at university level — visual resources like 3Blue1Brown videos make them engaging and understandable. Next, move into machine learning and deep learning using free, high-quality courses. Fast.ai offers practical deep learning lessons that let you build real models quickly. Andrew Ng’s courses on Coursera provide excellent foundations. After gaining these basics, explore tools like PyTorch, Hugging Face, and techniques for building AI agents and web applications. The key is to learn by doing. Theory alone is not enough; every concept you study should be applied in a small project. This hands-on approach builds both skill and confidence.
+
+Time management is critical because you are still students with school responsibilities. Protect your academics first — strong grades open doors and reduce pressure from family. Create a realistic daily schedule. Wake up early to finish homework, dedicate one focused hour after school to coding, and reserve deeper work for the evening, perhaps from 7 to 8:30 PM. Use the Pomodoro technique: work for 25 minutes, then take a short break. Plan your week every Sunday so you know exactly what project you will tackle. Limit distractions ruthlessly. Total weekly AI work should reach 10–15 hours, but never at the expense of sleep. Aim to sleep by 10 or 11 PM at the latest — a well-rested brain learns faster and generates better ideas. Exercise for at least 20 minutes a day, eat real food instead of constant junk snacks, and treat your body as the engine that powers your ambitions.
+
+Equally important is knowing what to avoid. The biggest dream-killers for teenagers are addictive short-form videos on TikTok and Instagram, which can easily consume hours that should be spent building. Gaming, especially competitive online games that demand several hours daily, is another major trap. Avoid the habit of jumping between topics without finishing projects — this creates the illusion of learning without real progress. Do not wait for the “perfect” laptop, perfect moment; start with whatever you have today. Steer clear of negative influences. Be cautious of expensive online courses. Finally, protect your health by avoiding all-nighters, poor nutrition, and lack of physical activity. 
+
+In conclusion, becoming an AI founder at your age is not only possible but highly achievable. You already have a powerful advantage — a group of motivated friends who can support and challenge one another. Focus on action over perfection, prioritize Python and practical AI skills, manage your time with discipline, and deliberately avoid the distractions and habits that derail progress. In two years, with consistent effort, you could have a working AI product, a strong portfolio on GitHub, and real experience solving problems. The world needs innovative AI solutions, including those created by young minds from Ethiopia and Africa. Start today: gather your friends, set up a shared group, install Python, and begin your first project together. The future belongs to those who build it. You are not “just teenagers” — you are the next generation of AI founders. Take the first step now, stay consistent, and in time you will look back and be proud of how you began. The journey starts with a single line of code.`;
+
+        const SCHEDULE_TEXT = `Daily Schedule for AI Founders (14-18 years)
+
+6:00 AM – Wake up, pray/brush, healthy breakfast
+6:30 – 8:00 AM – School homework & study
+8:00 – 9:00 AM – Light exercise + break
+9:00 – 11:30 AM – Main AI time (2.5 hrs: learn + code)
+11:30 – 12:00 PM – Prepare + snack
+12:00 – 1:00 PM – School
+1:00 – 2:00 PM – Lunch + rest
+2:00 – 3:30 PM – AI project work (1.5 hrs)
+3:30 – 4:00 PM – Exercise / play
+4:00 – 5:30 PM – Finish school homework
+5:30 – 6:30 PM – Family time + dinner
+6:30 – 7:30 PM – Light AI review or team chat
+7:30 – 8:30 PM – Wind down (no heavy screens)
+9:00 PM – Sleep (9 hours)
+
+Total AI time: ~5 hours/day
+Use Pomodoro (25 min work + 5 min break). Phone away during AI blocks. School first. Stay consistent.
+Start tomorrow.`;
+
+        async function sendMessage() {
+            const text = userInput.value.trim();
+            if (!text) return;
+            appendMessage(text, 'user-message');
+            userInput.value = '';
+
+            const loadingId = 'loading-' + Date.now();
+            const loadingMsg = document.createElement('div');
+            loadingMsg.className = 'message ai-message';
+            loadingMsg.id = loadingId;
+            loadingMsg.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div>';
+            chatBox.appendChild(loadingMsg);
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            const lower = text.toLowerCase();
+            
+            // 1. Greeting
+            if (lower === 'hi' || lower === 'hello') {
+                setTimeout(() => {
+                    document.getElementById(loadingId).innerText = "I am To-Sun AI used for students and young people. Created by Abraham muruts student of Don Bosco High School. Then what do you want? Your future starts now!";
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                }, 600);
+                return;
+            }
+
+            // 2. Schedule Request
+            if (lower.includes('daily schedule')) {
+                setTimeout(() => {
+                    document.getElementById(loadingId).innerText = SCHEDULE_TEXT;
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                }, 600);
+                return;
+            }
+
+            // 3. AI Founder Trigger
+            if (lower.includes('i want to be an ai founder')) {
+                setTimeout(() => {
+                    document.getElementById(loadingId).innerText = "How old are you?";
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                }, 600);
+                return;
+            }
+
+            // 4. Age Guide Trigger
+            const ages = ['14', '15', '16', '17', '18'];
+            if (ages.some(age => lower.includes(age))) {
+                setTimeout(() => {
+                    document.getElementById(loadingId).innerText = GUIDE_TEXT;
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                }, 600);
+                return;
+            }
+
+            // 5. Default AI logic
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: text }] }],
+                        systemInstruction: {
+                            parts: [{ text: "You are To-Sun AI, created by Abraham Muruts. You mentor students in Ethiopia and beyond to become AI founders and millionaires. Be encouraging, specific about Python/AI, and emphasize disciplined routines." }]
+                        }
+                    })
+                });
+                const data = await response.json();
+                document.getElementById(loadingId).innerText = data.candidates?.[0]?.content?.parts?.[0]?.text || "The stars are cloudy. Try again.";
+            } catch (error) {
+                document.getElementById(loadingId).innerText = "Solar connection lost.";
+            }
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function appendMessage(text, className) {
+            const div = document.createElement('div');
+            div.className = `message ${className}`;
+            div.innerText = text;
+            chatBox.appendChild(div);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        window.onload = createStars;
+    </script>
+</body>
+</html>
