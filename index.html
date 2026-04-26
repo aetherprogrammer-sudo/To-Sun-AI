@@ -287,6 +287,175 @@
     .hero-stats { gap: 30px; }
     .footer-top { flex-direction: column; }
   }
+
+  /* ── CHATBOT NAV BUTTON ── */
+  .nav-ai-btn {
+    display: flex; align-items: center; gap: 8px;
+    padding: 9px 20px;
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+    font-family: 'Syne', sans-serif; font-weight: 700;
+    font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+    border: none; border-radius: 4px; cursor: pointer;
+    box-shadow: 0 4px 20px var(--gold-glow);
+    position: relative; overflow: hidden;
+    transition: all 0.3s;
+  }
+  .nav-ai-btn::after { content:''; position:absolute; inset:0; background:rgba(255,255,255,0.15); opacity:0; transition:opacity 0.2s; }
+  .nav-ai-btn:hover::after { opacity:1; }
+  .nav-ai-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--gold-glow); }
+  .nav-ai-btn .ai-pulse {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--btn-primary-text);
+    animation: ai-blink 1.8s ease infinite;
+    flex-shrink: 0;
+  }
+  @keyframes ai-blink { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.7)} }
+
+  /* ── CHATBOT OVERLAY ── */
+  #chatbot-overlay {
+    position: fixed; inset: 0; z-index: 9000;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(6px);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.35s ease;
+  }
+  #chatbot-overlay.open { opacity: 1; pointer-events: all; }
+
+  #chatbot-modal {
+    width: min(92vw, 780px); height: min(88vh, 680px);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    display: flex; flex-direction: column;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.35), 0 0 0 1px var(--border), 0 0 60px var(--gold-glow);
+    overflow: hidden;
+    transform: scale(0.92) translateY(24px);
+    transition: transform 0.38s cubic-bezier(0.23,1,0.32,1);
+  }
+  #chatbot-overlay.open #chatbot-modal { transform: scale(1) translateY(0); }
+
+  /* Modal Header */
+  .cb-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--border);
+    background: var(--nav-bg);
+    backdrop-filter: blur(20px);
+    flex-shrink: 0;
+  }
+  .cb-header-left { display: flex; align-items: center; gap: 12px; }
+  .cb-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--btn-primary-bg);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 16px var(--gold-glow);
+    flex-shrink: 0;
+  }
+  .cb-avatar svg { width: 22px; height: 22px; }
+  .cb-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.98rem; color: var(--text); }
+  .cb-title span { color: var(--accent); }
+  .cb-status { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); display: flex; align-items: center; gap: 5px; margin-top: 1px; }
+  .cb-status-dot { width: 6px; height: 6px; border-radius: 50%; background: #4caf50; animation: ai-blink 2s ease infinite; }
+  .cb-close {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: transparent; border: 1px solid var(--border);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    color: var(--text3); font-size: 1.1rem; transition: all 0.2s;
+  }
+  .cb-close:hover { background: var(--border); color: var(--text); transform: rotate(90deg); }
+
+  /* Messages */
+  .cb-messages {
+    flex: 1; overflow-y: auto; padding: 24px;
+    display: flex; flex-direction: column; gap: 16px;
+    scroll-behavior: smooth;
+  }
+  .cb-messages::-webkit-scrollbar { width: 4px; }
+  .cb-messages::-webkit-scrollbar-track { background: transparent; }
+  .cb-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .cb-msg { display: flex; gap: 10px; max-width: 82%; animation: msgIn 0.3s cubic-bezier(0.23,1,0.32,1) both; }
+  @keyframes msgIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+  .cb-msg.user { align-self: flex-end; flex-direction: row-reverse; }
+
+  .cb-msg-avatar {
+    width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem; border: 1px solid var(--border);
+    background: var(--card-bg);
+  }
+  .cb-msg.bot .cb-msg-avatar { background: var(--btn-primary-bg); box-shadow: 0 0 10px var(--gold-glow); }
+
+  .cb-bubble {
+    padding: 12px 16px; border-radius: 16px; font-size: 0.9rem;
+    line-height: 1.65; color: var(--text2);
+    background: var(--card-bg); border: 1px solid var(--border);
+    backdrop-filter: blur(10px);
+  }
+  .cb-msg.user .cb-bubble {
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+    border: none;
+    border-radius: 16px 4px 16px 16px;
+  }
+  .cb-msg.bot .cb-bubble { border-radius: 4px 16px 16px 16px; }
+
+  /* Typing indicator */
+  .cb-typing { display: flex; gap: 4px; padding: 10px 14px; align-items: center; }
+  .cb-typing span {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--accent); opacity: 0.5;
+    animation: typingDot 1.2s ease infinite;
+  }
+  .cb-typing span:nth-child(2) { animation-delay: 0.2s; }
+  .cb-typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes typingDot { 0%,60%,100%{transform:translateY(0);opacity:0.5} 30%{transform:translateY(-6px);opacity:1} }
+
+  /* Quick replies */
+  .cb-quick-replies {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    padding: 0 24px 12px;
+  }
+  .cb-qr {
+    padding: 7px 14px; border-radius: 20px; font-size: 0.75rem;
+    border: 1px solid var(--border); background: var(--card-bg);
+    color: var(--text2); cursor: pointer; transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .cb-qr:hover { border-color: var(--accent); color: var(--accent); background: var(--gold-glow); }
+
+  /* Input area */
+  .cb-input-area {
+    padding: 16px 20px;
+    border-top: 1px solid var(--border);
+    background: var(--nav-bg);
+    display: flex; gap: 10px; align-items: flex-end;
+    flex-shrink: 0;
+  }
+  .cb-input {
+    flex: 1; background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 12px; padding: 12px 16px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+    color: var(--text); resize: none; outline: none;
+    line-height: 1.5; max-height: 120px; min-height: 44px;
+    transition: border-color 0.2s;
+  }
+  .cb-input::placeholder { color: var(--text3); }
+  .cb-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--gold-glow); }
+  .cb-send {
+    width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+    background: var(--btn-primary-bg);
+    border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 12px var(--gold-glow);
+    transition: all 0.2s;
+  }
+  .cb-send:hover { transform: scale(1.08); box-shadow: 0 6px 20px var(--gold-glow); }
+  .cb-send:active { transform: scale(0.95); }
+  .cb-send svg { width: 18px; height: 18px; fill: var(--btn-primary-text); }
+  .cb-footer-note { text-align: center; font-size: 0.62rem; color: var(--text3); padding: 0 20px 10px; letter-spacing: 0.06em; flex-shrink: 0; }
 </style>
 </head>
 <body>
@@ -330,9 +499,65 @@
       <div class="toggle-track"><div class="toggle-thumb"></div></div>
       <span class="toggle-icon">🌙</span>
     </div>
+    <button class="nav-ai-btn" id="openChatbot" aria-label="Open TO-Sun AI Assistant">
+      <span class="ai-pulse"></span>
+      TO-Sun AI Assistant
+    </button>
     <a href="https://t.me/To_Sun_AI" target="_blank" rel="noopener" class="btn-primary" style="font-size:0.72rem;padding:10px 22px;">Join Free</a>
   </div>
 </nav>
+
+<!-- ══════════════════════════════════════════
+     CHATBOT MODAL
+══════════════════════════════════════════ -->
+<div id="chatbot-overlay" role="dialog" aria-modal="true" aria-label="TO-Sun AI Assistant">
+  <div id="chatbot-modal">
+
+    <!-- Header -->
+    <div class="cb-header">
+      <div class="cb-header-left">
+        <div class="cb-avatar">
+          <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="28" cy="28" r="26" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+            <circle cx="28" cy="28" r="10" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="2"/>
+            <path d="M28,18 L30,23 L35,25 L30,27 L28,32 L26,27 L21,25 L26,23 Z" fill="rgba(255,255,255,0.9)"/>
+          </svg>
+        </div>
+        <div>
+          <div class="cb-title">To-Sun <span>AI</span> Assistant</div>
+          <div class="cb-status"><span class="cb-status-dot"></span> Online · Ready to help you rise</div>
+        </div>
+      </div>
+      <button class="cb-close" id="closeChatbot" aria-label="Close chatbot">✕</button>
+    </div>
+
+    <!-- Messages -->
+    <div class="cb-messages" id="cbMessages">
+      <!-- Welcome message injected by JS -->
+    </div>
+
+    <!-- Quick Replies -->
+    <div class="cb-quick-replies" id="cbQuickReplies">
+      <button class="cb-qr" data-msg="What can To-Sun AI help me with?">✦ What can you help with?</button>
+      <button class="cb-qr" data-msg="Tell me about the AI Study Assistant">📚 AI Study Assistant</button>
+      <button class="cb-qr" data-msg="How does the Coding Mentor work?">💻 Coding Mentor</button>
+      <button class="cb-qr" data-msg="Tell me about the Founder Roadmap">🚀 Founder Roadmap</button>
+      <button class="cb-qr" data-msg="How do I join To-Sun AI for free?">🎁 Join Free</button>
+    </div>
+
+    <!-- Input Area -->
+    <div class="cb-input-area">
+      <textarea class="cb-input" id="cbInput" placeholder="Ask anything — study, code, business, mindset…" rows="1"></textarea>
+      <button class="cb-send" id="cbSend" aria-label="Send message">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+        </svg>
+      </button>
+    </div>
+    <div class="cb-footer-note">Powered by To-Sun AI · Intelligence That Rises With You</div>
+
+  </div>
+</div>
 
 <!-- HERO -->
 <section class="hero" id="home">
@@ -762,6 +987,231 @@ const statsObserver = new IntersectionObserver((entries) => {
   }
 }, {threshold:0.5});
 statsObserver.observe(document.querySelector('.hero-stats'));
+
+// ════════════════════════════════════════════
+// TO-SUN AI CHATBOT
+// ════════════════════════════════════════════
+(function() {
+  const overlay   = document.getElementById('chatbot-overlay');
+  const openBtn   = document.getElementById('openChatbot');
+  const closeBtn  = document.getElementById('closeChatbot');
+  const messages  = document.getElementById('cbMessages');
+  const input     = document.getElementById('cbInput');
+  const sendBtn   = document.getElementById('cbSend');
+  const qrWrap    = document.getElementById('cbQuickReplies');
+
+  let conversationHistory = [];
+  let isTyping = false;
+  let welcomeShown = false;
+
+  // ── Knowledge Base (local responses for common questions) ──
+  const KB = {
+    greet: {
+      patterns: [/^(hi|hello|hey|yo|sup|hiya|good\s*(morning|evening|afternoon))/i],
+      response: "Hey there! 👋 Welcome to **To-Sun AI** — your intelligence engine for growth, learning, and ambition. I'm here to help you study smarter, code better, and build your future. What would you like to explore today?"
+    },
+    features: {
+      patterns: [/what can you|features|help me with|what do you do|capabilities/i],
+      response: "To-Sun AI is an all-in-one growth platform built for ambitious people. Here's what we offer:\n\n✦ **AI Study Assistant** — Personalized learning for any subject\n💻 **Coding Mentor** — Learn to code from zero to pro\n🚀 **Founder Roadmap** — Build your startup step-by-step\n📈 **Forex Programs** — Trade smarter with AI insights\n🏆 **CEO Dashboard** — Manage your goals like a leader\n📊 **Productivity Tracker** — Track habits, build discipline\n🏛 **University Builder** — Create your own knowledge base\n\nAll completely free to start. Which interests you most?"
+    },
+    study: {
+      patterns: [/study|learn|school|exam|revision|homework|academic|education/i],
+      response: "📚 **AI Study Assistant** is one of our most loved tools!\n\nIt helps you:\n• Break down complex topics into simple chunks\n• Create personalised revision plans\n• Quiz yourself with AI-generated questions\n• Understand concepts across any subject\n\nWhether you're preparing for exams or learning something new, the AI adapts to your pace and style. Think of it as a private tutor available 24/7 — completely free. Ready to level up your studies?"
+    },
+    coding: {
+      patterns: [/cod(e|ing|er)|program(ming)?|developer|software|javascript|python|web dev/i],
+      response: "💻 **Coding Mentor** is designed for beginners AND experienced devs!\n\nWith To-Sun AI you can:\n• Learn any language (Python, JavaScript, HTML, and more)\n• Get AI-powered code reviews and debugging help\n• Follow structured roadmaps from beginner to pro\n• Build real projects with guided mentorship\n\nCoding is one of the highest-value skills you can build. We make it accessible, fun, and structured. What language or project are you interested in?"
+    },
+    founder: {
+      patterns: [/found(er|ing)|startup|business|entrepreneur|company|idea|pitch/i],
+      response: "🚀 **Founder Roadmap** is built for future CEOs!\n\nWe guide you through:\n• Validating your business idea\n• Building your MVP (Minimum Viable Product)\n• Marketing and growing your user base\n• Raising funds and scaling operations\n• Building a team and company culture\n\nFrom zero to launch — To-Sun AI walks with you every step. Do you already have a business idea, or are you looking for inspiration?"
+    },
+    forex: {
+      patterns: [/forex|trading|trade|market|invest|stock|crypto|finance/i],
+      response: "📈 **Forex & Trading Programs** — Trade with intelligence!\n\nOur programs cover:\n• Forex fundamentals and chart reading\n• Risk management strategies\n• AI-assisted market analysis\n• Building trading discipline and psychology\n• Live strategy walkthroughs\n\n⚠️ Trading involves risk — we always emphasise education first. Our goal is to make you a disciplined, informed trader. Want to know how to get started?"
+    },
+    free: {
+      patterns: [/free|join|sign up|cost|price|membership|telegram/i],
+      response: "🎁 **Yes — To-Sun AI is 100% free to start!**\n\nHere's how to join:\n1. Click the **'Join Free'** button in the nav\n2. It opens our Telegram channel: **@To_Sun_AI**\n3. Join the community — thousands of members already growing\n4. Access resources, tools, and daily motivation\n\nNo credit card. No hidden fees. Just your ambition and our AI. What are you waiting for? Your future starts now. 🌟"
+    },
+    about: {
+      patterns: [/about|who are you|what is to.?sun|mission|vision|story/i],
+      response: "✦ **To-Sun AI** was built for people who refuse average.\n\nWe believe success doesn't belong to the lucky — it belongs to the prepared. Our platform combines:\n• AI-powered learning tools\n• Startup and business systems\n• Productivity and discipline frameworks\n• A community of ambitious creators\n\n**Our mission:** Build the next generation of global leaders — students, founders, and dreamers who turn knowledge into power. We rise together. 🌅"
+    },
+    roadmap: {
+      patterns: [/roadmap|stages|journey|progress|path/i],
+      response: "🗺 **The To-Sun AI Growth Roadmap has 5 stages:**\n\n1. **Foundation** — Build your knowledge base and mindset\n2. **Skill Building** — Code, study, and trade with AI support\n3. **Creation** — Launch projects and ideas with the Founder tools\n4. **Mastery** — Track habits, manage like a CEO, grow consistently\n5. **Legacy** — Lead, teach, and inspire others in the community\n\nEvery great journey starts with a single step. Which stage are you at right now?"
+    },
+    community: {
+      patterns: [/community|telegram|members|network|connect|people/i],
+      response: "🌍 **The To-Sun AI Community is thriving!**\n\n• 10,000+ members and growing\n• Daily motivation and accountability\n• Study groups and coding challenges\n• Business case studies\n• Forex analysis and trading signals\n• Direct access to mentors and founders\n\nJoin us on Telegram → **@To_Sun_AI**\n\nWhen you surround yourself with ambitious people, you rise with them. Come join the movement. 🚀"
+    },
+  };
+
+  // ── Format markdown-lite (bold, newlines) ──
+  function formatMsg(text) {
+    return text
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\n/g, '<br>');
+  }
+
+  // ── Append a message bubble ──
+  function addMessage(text, role) {
+    const wrap = document.createElement('div');
+    wrap.className = `cb-msg ${role}`;
+
+    const avatar = document.createElement('div');
+    avatar.className = 'cb-msg-avatar';
+    avatar.textContent = role === 'bot' ? '✦' : '👤';
+
+    const bubble = document.createElement('div');
+    bubble.className = 'cb-bubble';
+    bubble.innerHTML = formatMsg(text);
+
+    wrap.appendChild(avatar);
+    wrap.appendChild(bubble);
+    messages.appendChild(wrap);
+    messages.scrollTop = messages.scrollHeight;
+    return wrap;
+  }
+
+  // ── Show typing indicator ──
+  function showTyping() {
+    const wrap = document.createElement('div');
+    wrap.className = 'cb-msg bot';
+    wrap.id = 'cb-typing-indicator';
+
+    const avatar = document.createElement('div');
+    avatar.className = 'cb-msg-avatar';
+    avatar.textContent = '✦';
+
+    const bubble = document.createElement('div');
+    bubble.className = 'cb-bubble';
+    bubble.innerHTML = '<div class="cb-typing"><span></span><span></span><span></span></div>';
+
+    wrap.appendChild(avatar);
+    wrap.appendChild(bubble);
+    messages.appendChild(wrap);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function removeTyping() {
+    const el = document.getElementById('cb-typing-indicator');
+    if (el) el.remove();
+  }
+
+  // ── Match local KB ──
+  function matchKB(userText) {
+    for (const key in KB) {
+      const entry = KB[key];
+      if (entry.patterns.some(p => p.test(userText))) {
+        return entry.response;
+      }
+    }
+    return null;
+  }
+
+  // ── Call Anthropic API ──
+  async function callClaude(userText) {
+    conversationHistory.push({ role: 'user', content: userText });
+
+    const systemPrompt = `You are the To-Sun AI Assistant — a motivational, knowledgeable, and energetic AI built into the To-Sun AI platform website. To-Sun AI is a growth and learning platform for students, coders, founders, and ambitious dreamers. It offers: AI Study Assistant, Coding Mentor, Founder Roadmap, Forex Programs, CEO Dashboard, Productivity Tracker, and University Builder — all free to start via Telegram at @To_Sun_AI.
+
+Your personality: inspiring, direct, empowering, and warm. You speak to ambitious people who want to grow. Keep responses concise (3-8 sentences or bullet points). Use ✦ emoji sparingly for style. Always end with a motivating question or call-to-action. If someone asks about topics unrelated to learning, productivity, business, or personal growth, gently redirect them to how To-Sun AI can help them grow instead.`;
+
+    try {
+      const resp = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          system: systemPrompt,
+          messages: conversationHistory
+        })
+      });
+      const data = await resp.json();
+      const reply = data.content?.map(b => b.text || '').join('') || "I'm having a moment — please try again!";
+      conversationHistory.push({ role: 'assistant', content: reply });
+      return reply;
+    } catch(e) {
+      return "Something went wrong on my end. Try again in a moment — or join us on Telegram @To_Sun_AI for live support! 🚀";
+    }
+  }
+
+  // ── Handle send ──
+  async function handleSend(text) {
+    text = (text || input.value).trim();
+    if (!text || isTyping) return;
+    isTyping = true;
+
+    // Hide quick replies after first interaction
+    qrWrap.style.display = 'none';
+
+    input.value = '';
+    input.style.height = 'auto';
+    addMessage(text, 'user');
+    showTyping();
+
+    // Try local KB first (instant), else call API
+    const localReply = matchKB(text);
+    if (localReply) {
+      await new Promise(r => setTimeout(r, 700 + Math.random()*500));
+      removeTyping();
+      addMessage(localReply, 'bot');
+      conversationHistory.push({ role: 'user', content: text });
+      conversationHistory.push({ role: 'assistant', content: localReply });
+    } else {
+      const reply = await callClaude(text);
+      removeTyping();
+      addMessage(reply, 'bot');
+    }
+    isTyping = false;
+  }
+
+  // ── Open / Close ──
+  function openChat() {
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    if (!welcomeShown) {
+      welcomeShown = true;
+      setTimeout(() => {
+        addMessage("✦ **Welcome to To-Sun AI Assistant!**\n\nI'm your personal guide to the To-Sun AI platform — built for students, coders, founders, and dreamers like you.\n\nAsk me anything about our features, how to join, or just get inspired. **Your greatness starts now.** 🌅", 'bot');
+      }, 350);
+    }
+    setTimeout(() => input.focus(), 400);
+  }
+
+  function closeChat() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  openBtn.addEventListener('click', openChat);
+  closeBtn.addEventListener('click', closeChat);
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeChat(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeChat(); });
+
+  // Quick replies
+  qrWrap.addEventListener('click', e => {
+    const btn = e.target.closest('.cb-qr');
+    if (btn) handleSend(btn.dataset.msg);
+  });
+
+  // Send button
+  sendBtn.addEventListener('click', () => handleSend());
+
+  // Enter key (Shift+Enter = newline)
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); }
+  });
+
+  // Auto-resize textarea
+  input.addEventListener('input', () => {
+    input.style.height = 'auto';
+    input.style.height = Math.min(input.scrollHeight, 120) + 'px';
+  });
+})();
 </script>
 </body>
 </html>
