@@ -1,398 +1,767 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To-Sun AI | From Zero to Millionaire</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --sun-color: #ffca2c;
-            --sun-glow: #ff8c00;
-            --star-speed: 50s;
-        }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>To-Sun AI — Intelligence That Rises With You</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #fafaf8;
+    --bg2: #f4f2ee;
+    --surface: rgba(255,255,255,0.85);
+    --border: rgba(196,158,73,0.3);
+    --gold: #c49e49;
+    --gold2: #e8c96a;
+    --gold-glow: rgba(196,158,73,0.25);
+    --text: #0d0d0d;
+    --text2: #3a3530;
+    --text3: #7a7168;
+    --accent: #c49e49;
+    --accent2: #e8c96a;
+    --btn-primary-bg: linear-gradient(135deg, #c49e49, #e8c96a, #b8902a);
+    --btn-primary-text: #0d0d0d;
+    --btn-secondary-border: #c49e49;
+    --btn-secondary-text: #c49e49;
+    --hero-gradient: radial-gradient(ellipse at 30% 20%, rgba(196,158,73,0.12) 0%, transparent 60%), radial-gradient(ellipse at 80% 80%, rgba(232,201,106,0.08) 0%, transparent 50%), #fafaf8;
+    --card-bg: rgba(255,255,255,0.9);
+    --card-shadow: 0 8px 40px rgba(196,158,73,0.12), 0 2px 8px rgba(0,0,0,0.06);
+    --roadmap-line: linear-gradient(90deg, #c49e49, #e8c96a, #c49e49);
+    --roadmap-glow: rgba(196,158,73,0.4);
+    --timeline-dot: #c49e49;
+    --section-divider: rgba(196,158,73,0.2);
+    --particle-color: rgba(196,158,73,0.6);
+    --nav-bg: rgba(250,250,248,0.95);
+    --footer-bg: #0d0d0d;
+    --footer-text: #fff;
+    --footer-accent: #c49e49;
+    --cta-bg: linear-gradient(135deg, #fdf6e3, #f5ead0);
+    --stat-color: #c49e49;
+    --toggle-track: #e8e0d0;
+  }
+  [data-theme="dark"] {
+    --bg: #050508;
+    --bg2: #0a0a12;
+    --surface: rgba(10,10,20,0.85);
+    --border: rgba(0,140,255,0.3);
+    --gold: #008cff;
+    --gold2: #00c3ff;
+    --gold-glow: rgba(0,140,255,0.25);
+    --text: #f0f4ff;
+    --text2: #b0bcd4;
+    --text3: #6070a0;
+    --accent: #008cff;
+    --accent2: #00c3ff;
+    --btn-primary-bg: linear-gradient(135deg, #0060cc, #008cff, #00c3ff);
+    --btn-primary-text: #fff;
+    --btn-secondary-border: #008cff;
+    --btn-secondary-text: #00c3ff;
+    --hero-gradient: radial-gradient(ellipse at 20% 20%, rgba(0,140,255,0.15) 0%, transparent 55%), radial-gradient(ellipse at 80% 70%, rgba(0,195,255,0.1) 0%, transparent 50%), #050508;
+    --card-bg: rgba(10,15,30,0.85);
+    --card-shadow: 0 8px 40px rgba(0,140,255,0.15), 0 0 1px rgba(0,195,255,0.3);
+    --roadmap-line: linear-gradient(90deg, #008cff, #00c3ff, #008cff);
+    --roadmap-glow: rgba(0,140,255,0.5);
+    --timeline-dot: #00c3ff;
+    --section-divider: rgba(0,140,255,0.15);
+    --particle-color: rgba(0,140,255,0.5);
+    --nav-bg: rgba(5,5,10,0.95);
+    --footer-bg: #020205;
+    --footer-text: #f0f4ff;
+    --footer-accent: #008cff;
+    --cta-bg: linear-gradient(135deg, #050510, #080820);
+    --stat-color: #00c3ff;
+    --toggle-track: #1a2040;
+  }
 
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: radial-gradient(circle at center, #1a1c2c 0%, #0a0a0a 100%);
-            color: white;
-            height: 100vh;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    transition: background 0.5s, color 0.5s;
+  }
 
-        /* Starfield Background */
-        #star-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: auto;
-        }
+  /* CUSTOM CURSOR */
+  .cursor { position: fixed; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: transform 0.1s, background 0.3s; mix-blend-mode: screen; }
+  .cursor-ring { position: fixed; width: 36px; height: 36px; border: 1.5px solid var(--accent); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: all 0.18s ease, background 0.3s; opacity: 0.5; }
 
-        .star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            opacity: 0.5;
-            cursor: pointer;
-            box-shadow: 0 0 5px white;
-            animation: moveStar var(--star-speed) linear infinite;
-        }
+  /* CANVAS */
+  #particles-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: 0.6; }
 
-        @keyframes moveStar {
-            from { transform: translateY(0); }
-            to { transform: translateY(-100vh); }
-        }
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: var(--nav-bg);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 5%;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 70px;
+    transition: all 0.4s;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-logo-img { width: 38px; height: 38px; object-fit: contain; }
+  .nav-logo-text { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--text); letter-spacing: -0.02em; }
+  .nav-logo-text span { color: var(--accent); }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { font-size: 0.82rem; font-weight: 500; color: var(--text2); text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-right { display: flex; align-items: center; gap: 16px; }
 
-        .warp-speed .star {
-            animation-duration: 1.5s !important;
-            box-shadow: 0 0 20px white;
-        }
+  /* THEME TOGGLE */
+  .theme-toggle { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+  .toggle-track { width: 46px; height: 24px; background: var(--toggle-track); border-radius: 12px; position: relative; transition: background 0.3s; border: 1px solid var(--border); }
+  .toggle-thumb { position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; background: var(--accent); border-radius: 50%; transition: all 0.3s; box-shadow: 0 0 8px var(--gold-glow); }
+  [data-theme="dark"] .toggle-thumb { left: 25px; }
+  .toggle-icon { font-size: 14px; }
 
-        /* Motion Background Elements */
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            z-index: 0;
-            opacity: 0.15;
-            animation: orbMove 20s infinite alternate;
-            pointer-events: none;
-        }
+  /* LOADING */
+  #loading { position: fixed; inset: 0; background: #050508; z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.8s; }
+  #loading.hidden { opacity: 0; pointer-events: none; }
+  .loading-logo { width: 80px; height: 80px; animation: pulse-load 1.5s ease-in-out infinite; }
+  .loading-bar-wrap { width: 200px; height: 2px; background: rgba(255,255,255,0.1); border-radius: 2px; margin-top: 24px; overflow: hidden; }
+  .loading-bar { height: 100%; background: linear-gradient(90deg, #c49e49, #008cff); border-radius: 2px; animation: load-progress 2s ease forwards; }
+  .loading-text { margin-top: 16px; font-family: 'Syne', sans-serif; font-size: 0.72rem; letter-spacing: 0.2em; color: rgba(255,255,255,0.4); text-transform: uppercase; }
+  @keyframes pulse-load { 0%,100%{transform:scale(1);opacity:0.8} 50%{transform:scale(1.08);opacity:1} }
+  @keyframes load-progress { 0%{width:0%} 100%{width:100%} }
 
-        @keyframes orbMove {
-            from { transform: translate(-10%, -10%); }
-            to { transform: translate(10%, 10%); }
-        }
+  /* HERO */
+  .hero {
+    min-height: 100vh; position: relative; z-index: 1;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--hero-gradient);
+    padding: 100px 5% 60px;
+    overflow: hidden;
+    transition: background 0.5s;
+  }
+  .hero-inner { max-width: 900px; text-align: center; position: relative; z-index: 2; }
+  .hero-tag { display: inline-block; font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--border); padding: 6px 18px; border-radius: 50px; margin-bottom: 32px; background: var(--card-bg); backdrop-filter: blur(10px); animation: fadeUp 0.8s ease both; }
+  .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 8vw, 7rem); font-weight: 700; line-height: 1.0; letter-spacing: -0.02em; color: var(--text); margin-bottom: 12px; animation: fadeUp 0.9s 0.1s ease both; }
+  .hero-title .gold { color: var(--accent); text-shadow: 0 0 40px var(--gold-glow); }
+  .hero-subtitle { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 300; font-style: italic; color: var(--text2); margin-bottom: 24px; animation: fadeUp 0.9s 0.2s ease both; }
+  .hero-desc { font-size: 1.05rem; color: var(--text3); max-width: 580px; margin: 0 auto 48px; line-height: 1.75; animation: fadeUp 0.9s 0.3s ease both; }
+  .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; animation: fadeUp 0.9s 0.4s ease both; }
+  .btn-primary { padding: 16px 38px; background: var(--btn-primary-bg); color: var(--btn-primary-text); font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.82rem; letter-spacing: 0.12em; text-transform: uppercase; border: none; border-radius: 4px; cursor: pointer; text-decoration: none; transition: all 0.3s; box-shadow: 0 4px 20px var(--gold-glow); position: relative; overflow: hidden; }
+  .btn-primary::after { content:''; position:absolute; inset:0; background:rgba(255,255,255,0.15); opacity:0; transition:opacity 0.2s; }
+  .btn-primary:hover::after { opacity:1; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--gold-glow); }
+  .btn-secondary { padding: 15px 38px; background: transparent; color: var(--btn-secondary-text); font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.82rem; letter-spacing: 0.12em; text-transform: uppercase; border: 1.5px solid var(--btn-secondary-border); border-radius: 4px; cursor: pointer; text-decoration: none; transition: all 0.3s; }
+  .btn-secondary:hover { background: var(--accent); color: var(--bg); transform: translateY(-2px); }
+  .hero-scroll { position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; animation: fadeUp 1s 0.6s ease both; }
+  .hero-scroll span { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text3); }
+  .scroll-line { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--accent), transparent); animation: scroll-bounce 2s ease infinite; }
+  @keyframes scroll-bounce { 0%,100%{transform:scaleY(1);opacity:0.5} 50%{transform:scaleY(1.3);opacity:1} }
+  .hero-stats { display: flex; justify-content: center; gap: 60px; margin-top: 60px; animation: fadeUp 0.9s 0.5s ease both; flex-wrap: wrap; }
+  .stat-item { text-align: center; }
+  .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; font-weight: 700; color: var(--stat-color); line-height: 1; }
+  .stat-label { font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text3); margin-top: 4px; }
 
-        /* The Sun Component */
-        .sun-container {
-            position: fixed;
-            top: 40px;
-            right: 40px;
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-        }
+  /* SECTIONS */
+  section { position: relative; z-index: 1; }
+  .section-inner { max-width: 1200px; margin: 0 auto; padding: 100px 5%; }
+  .section-tag { font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; display: block; }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 5vw, 4rem); font-weight: 700; line-height: 1.1; color: var(--text); margin-bottom: 20px; }
+  .section-title .gold { color: var(--accent); }
+  .section-desc { font-size: 1rem; color: var(--text3); line-height: 1.8; max-width: 600px; }
+  .divider { width: 100%; height: 1px; background: var(--section-divider); }
 
-        .sun {
-            width: 80px;
-            height: 80px;
-            background: var(--sun-color);
-            border-radius: 50%;
-            box-shadow: 0 0 40px var(--sun-glow), 0 0 100px var(--sun-glow);
-            animation: pulse 4s infinite ease-in-out;
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
+  /* ABOUT */
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .about-text p { font-size: 1.05rem; color: var(--text2); line-height: 1.85; margin-bottom: 20px; }
+  .about-text .big-quote { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-style: italic; color: var(--accent); border-left: 3px solid var(--accent); padding-left: 20px; margin: 32px 0; line-height: 1.4; }
+  .about-visual { position: relative; }
+  .about-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 36px; backdrop-filter: blur(20px); box-shadow: var(--card-shadow); transition: all 0.4s; }
+  .about-card:hover { transform: translateY(-6px); box-shadow: var(--card-shadow), 0 0 40px var(--gold-glow); }
+  .about-logo-wrap { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
+  .about-logo-wrap img { width: 56px; height: 56px; object-fit: contain; }
+  .about-logo-name { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.4rem; color: var(--text); }
+  .about-logo-name span { color: var(--accent); }
+  .about-tagline { font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text3); }
+  .about-card p { color: var(--text2); font-size: 0.95rem; line-height: 1.7; margin-bottom: 20px; }
+  .about-highlights { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+  .highlight-row { display: flex; align-items: center; gap: 10px; font-size: 0.88rem; color: var(--text2); }
+  .highlight-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 8px var(--gold-glow); }
+  .about-float1 { position: absolute; top: -20px; right: -20px; width: 100px; height: 100px; background: var(--accent); opacity: 0.06; border-radius: 50%; filter: blur(20px); }
+  .about-float2 { position: absolute; bottom: -30px; left: -30px; width: 140px; height: 140px; background: var(--accent2); opacity: 0.06; border-radius: 50%; filter: blur(30px); }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); filter: brightness(1); }
-            50% { transform: scale(1.05); filter: brightness(1.2); }
-        }
+  /* FEATURES */
+  .features-bg { background: var(--bg2); transition: background 0.5s; }
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 60px; }
+  .feature-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 32px; backdrop-filter: blur(20px); box-shadow: var(--card-shadow); transition: all 0.4s cubic-bezier(0.23,1,0.32,1); cursor: default; position: relative; overflow: hidden; opacity: 0; transform: translateY(30px); }
+  .feature-card.visible { opacity: 1; transform: translateY(0); }
+  .feature-card::before { content:''; position:absolute; inset:0; background: linear-gradient(135deg, var(--gold-glow) 0%, transparent 60%); opacity:0; transition:opacity 0.3s; }
+  .feature-card:hover::before { opacity:1; }
+  .feature-card:hover { transform: translateY(-8px) scale(1.01); box-shadow: var(--card-shadow), 0 0 30px var(--gold-glow); border-color: var(--accent); }
+  .feature-icon { width: 52px; height: 52px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; background: var(--gold-glow); border-radius: 10px; border: 1px solid var(--border); transition: all 0.3s; }
+  .feature-card:hover .feature-icon { box-shadow: 0 0 20px var(--gold-glow); }
+  .feature-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; color: var(--text); margin-bottom: 10px; }
+  .feature-desc { font-size: 0.88rem; color: var(--text3); line-height: 1.65; }
 
-        #sun-message {
-            margin-top: 15px;
-            font-weight: 800;
-            color: var(--sun-color);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            opacity: 0;
-            transform: translateY(-10px);
-            transition: all 0.4s ease;
-            text-shadow: 0 0 10px var(--sun-glow);
-            pointer-events: none;
-        }
+  /* ROADMAP */
+  .roadmap-wrap { margin-top: 70px; }
+  .roadmap-path { position: relative; display: flex; align-items: center; justify-content: space-between; padding: 60px 0; }
+  .roadmap-line-bg { position: absolute; top: 50%; left: 0; right: 0; height: 2px; background: var(--section-divider); transform: translateY(-50%); }
+  .roadmap-line-fill { position: absolute; top: 50%; left: 0; height: 2px; background: var(--roadmap-line); transform: translateY(-50%); width: 0%; transition: width 1.5s ease; box-shadow: 0 0 12px var(--roadmap-glow); }
+  .roadmap-line-fill.animated { width: 100%; }
+  .roadmap-step { position: relative; display: flex; flex-direction: column; align-items: center; gap: 16px; z-index: 2; flex: 1; }
+  .step-dot { width: 54px; height: 54px; border-radius: 50%; background: var(--card-bg); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; transition: all 0.5s; box-shadow: var(--card-shadow); }
+  .roadmap-step.lit .step-dot { border-color: var(--accent); background: var(--gold-glow); box-shadow: 0 0 20px var(--roadmap-glow); }
+  .step-label { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); transition: color 0.5s; text-align: center; }
+  .roadmap-step.lit .step-label { color: var(--accent); }
+  .step-sublabel { font-size: 0.7rem; color: var(--text3); text-align: center; max-width: 90px; line-height: 1.4; }
 
-        .show-message #sun-message {
-            opacity: 1;
-            transform: translateY(0);
-        }
+  /* TESTIMONIALS */
+  .testi-bg { background: var(--bg2); transition: background 0.5s; }
+  .testi-slider { margin-top: 60px; overflow: hidden; position: relative; }
+  .testi-track { display: flex; gap: 24px; animation: slide 30s linear infinite; width: max-content; }
+  .testi-track:hover { animation-play-state: paused; }
+  @keyframes slide { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+  .testi-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 32px; min-width: 340px; max-width: 340px; backdrop-filter: blur(20px); box-shadow: var(--card-shadow); flex-shrink: 0; }
+  .testi-stars { color: var(--accent); margin-bottom: 14px; letter-spacing: 2px; }
+  .testi-quote { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-style: italic; color: var(--text2); line-height: 1.65; margin-bottom: 20px; }
+  .testi-author { display: flex; align-items: center; gap: 12px; }
+  .testi-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--gold-glow); border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+  .testi-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.82rem; color: var(--text); }
+  .testi-role { font-size: 0.72rem; color: var(--text3); }
 
-        /* Chat Interface */
-        .chat-card {
-            width: 90%;
-            max-width: 750px;
-            height: 85vh;
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 32px;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            z-index: 10;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
+  /* CTA */
+  .cta-section { background: var(--cta-bg); transition: background 0.5s; }
+  .cta-inner { max-width: 800px; margin: 0 auto; padding: 100px 5%; text-align: center; }
+  .cta-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 700; color: var(--text); margin-bottom: 16px; line-height: 1.05; }
+  .cta-sub { font-size: 1.05rem; color: var(--text3); margin-bottom: 40px; line-height: 1.7; }
+  .btn-telegram { display: inline-flex; align-items: center; gap: 10px; padding: 18px 44px; background: var(--btn-primary-bg); color: var(--btn-primary-text); font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.88rem; letter-spacing: 0.1em; text-transform: uppercase; border: none; border-radius: 4px; cursor: pointer; text-decoration: none; animation: pulse-btn 2.5s ease infinite; box-shadow: 0 4px 20px var(--gold-glow); transition: transform 0.2s; }
+  .btn-telegram:hover { transform: translateY(-3px) scale(1.02); }
+  @keyframes pulse-btn { 0%,100%{box-shadow:0 4px 20px var(--gold-glow)} 50%{box-shadow:0 8px 40px var(--gold-glow), 0 0 60px var(--gold-glow)} }
 
-        .chat-header {
-            padding: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            text-align: center;
-        }
+  /* VISION */
+  .vision-section { text-align: center; }
+  .vision-big { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 5.5vw, 5.5rem); font-weight: 300; font-style: italic; line-height: 1.2; color: var(--text); margin-bottom: 40px; }
+  .vision-big .gold { color: var(--accent); font-weight: 700; font-style: normal; }
+  .vision-lines { display: flex; flex-direction: column; gap: 10px; margin-top: 60px; }
+  .vision-line { font-family: 'Syne', sans-serif; font-size: clamp(1rem, 2vw, 1.4rem); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text2); padding: 18px 0; border-top: 1px solid var(--section-divider); transition: all 0.3s; }
+  .vision-line:hover { color: var(--accent); border-color: var(--accent); padding-left: 16px; }
+  .vision-line:last-child { border-bottom: 1px solid var(--section-divider); }
 
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            scrollbar-width: thin;
-            scrollbar-color: rgba(255,255,255,0.1) transparent;
-        }
+  /* FOOTER */
+  footer { background: var(--footer-bg); color: var(--footer-text); padding: 70px 5% 40px; position: relative; z-index: 1; }
+  .footer-inner { max-width: 1200px; margin: 0 auto; }
+  .footer-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 50px; gap: 40px; flex-wrap: wrap; }
+  .footer-brand { max-width: 380px; }
+  .footer-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+  .footer-logo img { width: 42px; height: 42px; object-fit: contain; }
+  .footer-logo-text { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.2rem; color: var(--footer-text); }
+  .footer-logo-text span { color: var(--footer-accent); }
+  .footer-tagline { font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--footer-accent); margin-bottom: 16px; }
+  .footer-brand p { font-size: 0.88rem; color: rgba(255,255,255,0.45); line-height: 1.7; }
+  .footer-links-group h4 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--footer-accent); margin-bottom: 16px; }
+  .footer-links-group ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-links-group li a { font-size: 0.85rem; color: rgba(255,255,255,0.45); text-decoration: none; transition: color 0.2s; }
+  .footer-links-group li a:hover { color: var(--footer-accent); }
+  .footer-bottom { padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: space-between; flex-wrap: gap; gap: 16px; }
+  .footer-bottom p { font-size: 0.78rem; color: rgba(255,255,255,0.25); }
+  .footer-bottom-taglines { display: flex; gap: 20px; flex-wrap: wrap; }
+  .footer-bottom-taglines span { font-size: 0.72rem; color: rgba(255,255,255,0.2); font-style: italic; }
+  .footer-motto { text-align: center; padding: 30px 0 0; }
+  .footer-motto p { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-style: italic; color: rgba(255,255,255,0.3); }
+  .footer-motto strong { color: var(--footer-accent); }
 
-        .message {
-            max-width: 85%;
-            padding: 14px 20px;
-            border-radius: 20px;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            animation: fadeIn 0.3s ease forwards;
-            white-space: pre-wrap;
-        }
+  /* FOUNDER QUOTE */
+  .founder-section { background: var(--bg); transition: background 0.5s; }
+  .founder-quote-wrap { text-align: center; max-width: 860px; margin: 0 auto; }
+  .founder-q { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.5rem, 3.5vw, 3rem); font-style: italic; line-height: 1.45; color: var(--text); margin-bottom: 32px; }
+  .founder-q span { color: var(--accent); }
+  .founder-sig { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.78rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text3); }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+  /* ANIMATIONS */
+  @keyframes fadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
 
-        .user-message {
-            align-self: flex-end;
-            background: linear-gradient(135deg, #3b82f6, #2563eb);
-            color: white;
-            border-bottom-right-radius: 4px;
-        }
-
-        .ai-message {
-            align-self: flex-start;
-            background: rgba(255, 255, 255, 0.07);
-            color: #e2e8f0;
-            border-bottom-left-radius: 4px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .input-container {
-            padding: 20px;
-            display: flex;
-            gap: 12px;
-        }
-
-        input {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 14px 20px;
-            color: white;
-            outline: none;
-        }
-
-        input:focus { border-color: var(--sun-color); }
-
-        button {
-            background: var(--sun-color);
-            color: black;
-            border-radius: 16px;
-            padding: 0 24px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .loading-dots span {
-            animation: blink 1.4s infinite both;
-            height: 6px; width: 6px; background: currentColor;
-            display: inline-block; border-radius: 50%; margin: 0 2px;
-        }
-        @keyframes blink { 0%, 80%, 100% { opacity: 0; } 40% { opacity: 1; } }
-    </style>
+  /* RESPONSIVE */
+  @media(max-width: 768px) {
+    .about-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .roadmap-step .step-sublabel { display: none; }
+    .hero-stats { gap: 30px; }
+    .footer-top { flex-direction: column; }
+  }
+</style>
 </head>
 <body>
-    <div id="star-container"></div>
-    <div class="orb" style="width: 400px; height: 400px; background: #3b82f6; top: -100px; left: -100px;"></div>
-    <div class="orb" style="width: 300px; height: 300px; background: #ffca2c; bottom: -50px; right: -50px;"></div>
 
-    <div class="sun-container" id="sun-btn" onclick="igniteSun()">
-        <div class="sun"></div>
-        <div id="sun-message">From zero to Millionaire</div>
+<!-- LOADING -->
+<div id="loading">
+  <svg class="loading-logo" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="100" cy="100" r="90" stroke="rgba(196,158,73,0.2)" stroke-width="2"/>
+    <circle cx="100" cy="100" r="90" stroke="url(#loadGrad)" stroke-width="2" stroke-dasharray="565" stroke-dashoffset="565" style="animation:drawCircle 1.8s ease forwards">
+    <defs><linearGradient id="loadGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#c49e49"/><stop offset="100%" stop-color="#008cff"/></linearGradient></defs>
+    </circle>
+    <style>@keyframes drawCircle{to{stroke-dashoffset:0}}</style>
+  </svg>
+  <div class="loading-bar-wrap"><div class="loading-bar"></div></div>
+  <div class="loading-text">Initializing To-Sun AI</div>
+</div>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- PARTICLES -->
+<canvas id="particles-canvas"></canvas>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <img class="nav-logo-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='95' fill='%23fff8ee'/%3E%3C/svg%3E" alt="To-Sun AI" id="navLogoImg"/>
+    <span class="nav-logo-text">To-Sun <span>AI</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#community">Community</a></li>
+    <li><a href="#vision">Vision</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="theme-toggle" id="themeToggle" title="Toggle theme">
+      <span class="toggle-icon">☀️</span>
+      <div class="toggle-track"><div class="toggle-thumb"></div></div>
+      <span class="toggle-icon">🌙</span>
     </div>
+    <a href="https://t.me/To_Sun_AI" target="_blank" rel="noopener" class="btn-primary" style="font-size:0.72rem;padding:10px 22px;">Join Free</a>
+  </div>
+</nav>
 
-    <div class="chat-card">
-        <div class="chat-header">
-            <h1 class="text-xl font-extrabold tracking-tight text-white">
-                <span style="color: var(--sun-color)">TO-SUN</span> AI
-            </h1>
-            <p class="text-[10px] text-slate-400 mt-1 uppercase tracking-widest font-semibold">Zero to Millionaire Mentor</p>
-        </div>
-
-        <div class="chat-messages" id="chat-box">
-            <div class="message ai-message">Welcome. I am To-Sun AI. I was created by Abraham Muruts to help you grow. How can I illuminate your path to success today?</div>
-        </div>
-
-        <div class="input-container">
-            <input type="text" id="user-input" placeholder="Ask about your future..." onkeypress="if(event.key==='Enter') sendMessage()">
-            <button onclick="sendMessage()">SEND</button>
-        </div>
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-inner">
+    <div class="hero-tag">✦ Intelligence That Rises With You</div>
+    <h1 class="hero-title">FROM ZERO TO<br/><span class="gold">GREATNESS</span></h1>
+    <p class="hero-subtitle">Ordinary ends here. Greatness starts now.</p>
+    <p class="hero-desc">To-Sun AI helps students, coders, founders, and dreamers turn knowledge into power and ambition into reality.</p>
+    <div class="hero-btns">
+      <a href="#features" class="btn-primary">Start Your Future →</a>
+      <a href="https://t.me/To_Sun_AI" target="_blank" rel="noopener" class="btn-secondary">Join To-Sun AI</a>
     </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num" data-target="10000">0</div>
+        <div class="stat-label">Members Growing</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" data-target="8">0</div>
+        <div class="stat-label">AI Modules</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" data-target="5">0</div>
+        <div class="stat-label">Growth Stages</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" data-target="100">0</div>
+        <div class="stat-label">% Free to Start</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
 
-    <script>
-        const apiKey = ""; 
-        const chatBox = document.getElementById('chat-box');
-        const userInput = document.getElementById('user-input');
-        const starContainer = document.getElementById('star-container');
+<div class="divider"></div>
 
-        function createStars() {
-            for (let i = 0; i < 150; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                const size = (Math.random() * 3) + 'px';
-                star.style.width = size; star.style.height = size;
-                star.style.left = Math.random() * 100 + 'vw';
-                star.style.top = Math.random() * 100 + 'vh';
-                star.style.animationDelay = Math.random() * 50 + 's';
-                star.onclick = (e) => { e.stopPropagation(); activateWarp(); };
-                starContainer.appendChild(star);
-            }
-        }
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <span class="section-tag">✦ Our Story</span>
+        <h2 class="section-title">Built for Those Who <span class="gold">Refuse Average</span></h2>
+        <p>This platform was not created for comfort. It was created for those who are hungry for more — more knowledge, more discipline, more freedom, more impact.</p>
+        <div class="big-quote">"Success does not belong to the lucky. It belongs to the prepared."</div>
+        <p>To-Sun AI is for the student who refuses average. For the founder who starts with nothing. For the dreamer who chooses action over excuses.</p>
+        <p>We combine AI-powered learning, startup systems, productivity intelligence, and discipline-based growth into one powerful ecosystem. Our mission: create the next generation of leaders.</p>
+        <div style="margin-top:32px;">
+          <a href="#features" class="btn-primary">Explore Features</a>
+        </div>
+      </div>
+      <div class="about-visual reveal">
+        <div class="about-float1"></div>
+        <div class="about-float2"></div>
+        <div class="about-card">
+          <div class="about-logo-wrap">
+            <div style="width:56px;height:56px;display:flex;align-items:center;justify-content:center;">
+              <svg viewBox="0 0 120 120" width="56" height="56" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="60" cy="60" r="55" fill="none" stroke="var(--border)" stroke-width="1"/>
+                <g transform="translate(60,60)">
+                  <circle r="18" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+                  <path d="M0,-18 L6,-6 L18,0 L6,6 L0,18 L-6,6 L-18,0 L-6,-6 Z" fill="var(--accent)" opacity="0.7"/>
+                </g>
+                <g>
+                  <line x1="60" y1="5" x2="60" y2="20" stroke="var(--accent)" stroke-width="2" opacity="0.6"/>
+                  <line x1="60" y1="100" x2="60" y2="115" stroke="var(--accent)" stroke-width="2" opacity="0.6"/>
+                  <line x1="5" y1="60" x2="20" y2="60" stroke="var(--accent)" stroke-width="2" opacity="0.6"/>
+                  <line x1="100" y1="60" x2="115" y2="60" stroke="var(--accent)" stroke-width="2" opacity="0.6"/>
+                  <line x1="18" y1="18" x2="28" y2="28" stroke="var(--accent)" stroke-width="2" opacity="0.4"/>
+                  <line x1="92" y1="18" x2="82" y2="28" stroke="var(--accent)" stroke-width="2" opacity="0.4"/>
+                  <line x1="18" y1="102" x2="28" y2="92" stroke="var(--accent)" stroke-width="2" opacity="0.4"/>
+                  <line x1="92" y1="102" x2="82" y2="92" stroke="var(--accent)" stroke-width="2" opacity="0.4"/>
+                </g>
+              </svg>
+            </div>
+            <div>
+              <div class="about-logo-name">To-Sun <span>AI</span></div>
+              <div class="about-tagline">Intelligence That Rises With You</div>
+            </div>
+          </div>
+          <p>Not users. Builders.<br/>Not consumers. Creators.<br/>Not followers. Founders.</p>
+          <p>We are building the future of personal growth, education, and founder development for the next generation.</p>
+          <div class="about-highlights">
+            <div class="highlight-row"><div class="highlight-dot"></div>AI-powered learning ecosystem</div>
+            <div class="highlight-row"><div class="highlight-dot"></div>Forex & financial discipline training</div>
+            <div class="highlight-row"><div class="highlight-dot"></div>University & global success builder</div>
+            <div class="highlight-row"><div class="highlight-dot"></div>Startup & founder acceleration</div>
+            <div class="highlight-row"><div class="highlight-dot"></div>CEO productivity dashboard</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        function activateWarp() {
-            starContainer.classList.add('warp-speed');
-            setTimeout(() => starContainer.classList.remove('warp-speed'), 3000);
-        }
+<div class="divider"></div>
 
-        function igniteSun() {
-            const container = document.getElementById('sun-btn');
-            container.classList.add('show-message');
-            setTimeout(() => container.classList.remove('show-message'), 3000);
-        }
+<!-- FEATURES -->
+<section id="features" class="features-bg">
+  <div class="section-inner">
+    <span class="section-tag reveal">✦ Platform Capabilities</span>
+    <h2 class="section-title reveal">Eight Modules. <span class="gold">One Ecosystem.</span></h2>
+    <p class="section-desc reveal">Every tool you need to go from student to founder — powered by AI, built on discipline.</p>
+    <div class="features-grid">
+      <div class="feature-card" style="transition-delay:0.0s">
+        <div class="feature-icon">🎓</div>
+        <div class="feature-name">AI Study Assistant</div>
+        <div class="feature-desc">Intelligent tutoring that adapts to your pace, identifies gaps, and accelerates mastery across any subject.</div>
+      </div>
+      <div class="feature-card" style="transition-delay:0.07s">
+        <div class="feature-icon">💻</div>
+        <div class="feature-name">Coding Mentor</div>
+        <div class="feature-desc">From first line of code to production-ready projects. Real-world skills, real-world results, guided by AI.</div>
+      </div>
+      <div class="feature-card" style="transition-delay:0.14s">
+        <div class="feature-icon">🚀</div>
+        <div class="feature-name">Founder Roadmap</div>
+        <div class="feature-desc">Step-by-step startup blueprint — idea validation, MVP building, fundraising, and scaling your vision.</div>
+      </div>
+      <div class="feature-card" style="transition-delay:0.21s">
+        <div class="feature-icon">📈</div>
+        <div class="feature-name">Forex Learning Support</div>
+        <div class="feature-desc">Market structure, chart reading, and financial vocabulary — built for beginners who think like professionals.</div>
+      </div>
+      <div class="feature-card" style="transition-delay:0.28s">
+        <div class="feature-icon">💹</div>
+        <div class="feature-name">Forex Trader Growth</div>
+        <div class="feature-desc">Discipline-based trading programs. Emotional control, risk management, and long-term consistency coaching.</div>
+      </div>
+      <div class="feature-card" style="transition-delay:0.35s">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-name">Productivity Tracker</div>
+        <div class="feature-desc">AI-driven daily systems to eliminate distractions, track habits, and execute your goals with military precision.</div>
+      </div>
+      <div class="feature-card" style="transition-delay:0.42s">
+        <div class="feature-icon">🧠</div>
+        <div class="feature-name">Smart CEO Dashboard</div>
+        <div class="feature-desc">Think and operate like a CEO from day one. Strategy, decisions, and performance in one intelligent command center.</div>
+      </div>
+      <div class="feature-card" style="transition-delay:0.49s">
+        <div class="feature-icon">🏛️</div>
+        <div class="feature-name">University Success Builder</div>
+        <div class="feature-desc">MIT. Stanford. Ivy League. Build the portfolio, projects, and profile that top universities look for globally.</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        const GUIDE_TEXT = `Becoming an AI Founder: A Guide for Teenagers Aged 14 to 18
+<div class="divider"></div>
 
-In today’s world, artificial intelligence is transforming every industry, from healthcare and education to agriculture and business. For young people between 14 and 18 years old, this presents an extraordinary opportunity. You do not need to wait until university or until you have a full-time job to begin building in AI. Many successful founders started exactly where you are — learning to code in their bedrooms while still in school. With dedication, smart learning, disciplined time management, and the avoidance of common pitfalls, you and your friends can lay the foundation to become AI founders. The journey requires consistent effort, but the rewards are immense: creating useful technology, solving real problems, and potentially building a company that makes a positive impact.
+<!-- ROADMAP -->
+<section id="roadmap">
+  <div class="section-inner">
+    <span class="section-tag reveal">✦ Your Journey</span>
+    <h2 class="section-title reveal">The Path to <span class="gold">Leadership</span></h2>
+    <p class="section-desc reveal">Five transformational stages. One unstoppable trajectory.</p>
+    <div class="roadmap-wrap reveal">
+      <div class="roadmap-path">
+        <div class="roadmap-line-bg"></div>
+        <div class="roadmap-line-fill" id="roadmapFill"></div>
+        <div class="roadmap-step" id="rs0">
+          <div class="step-dot">🌱</div>
+          <div class="step-label">Student</div>
+          <div class="step-sublabel">Knowledge begins here</div>
+        </div>
+        <div class="roadmap-step" id="rs1">
+          <div class="step-dot">⚡</div>
+          <div class="step-label">Skilled</div>
+          <div class="step-sublabel">Mastery over basics</div>
+        </div>
+        <div class="roadmap-step" id="rs2">
+          <div class="step-dot">🎨</div>
+          <div class="step-label">Creator</div>
+          <div class="step-sublabel">Building real things</div>
+        </div>
+        <div class="roadmap-step" id="rs3">
+          <div class="step-dot">🚀</div>
+          <div class="step-label">Founder</div>
+          <div class="step-sublabel">Launching your vision</div>
+        </div>
+        <div class="roadmap-step" id="rs4">
+          <div class="step-dot">👑</div>
+          <div class="step-label">Leader</div>
+          <div class="step-sublabel">Changing the world</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-The first and most important step is to take action immediately. At this age, your brain is highly adaptable, and you have more free time than you will have later in life. Begin by treating your group of friends as a mini startup team. Assign roles based on strengths — one person can focus on coding, another on designing the user experience, another on researching new AI ideas, and someone on sharing your progress online. Set a clear weekly goal: spend at least 10 to 15 hours learning and building. Start small but ship something every two to three weeks. For example, a 14- or 15-year-old might focus on mastering Python and completing a simple project like a chatbot or image classifier. By 16 or 17, the team can build more advanced applications, such as an AI tool that helps farmers in Ethiopia predict crop yields or a study assistant for students. At 18, the goal shifts toward launching a real product and finding your first users. Consistency beats talent. A teenager who codes regularly for two years will far outperform someone who only dreams about it.
+<div class="divider"></div>
 
-What should you learn? The path is clearer than many people think. Start with Python, the most widely used programming language in AI because it is simple yet powerful. Once comfortable with Python, focus on the essential mathematics: linear algebra, probability and statistics, and basic calculus. These topics do not need to be mastered at university level — visual resources like 3Blue1Brown videos make them engaging and understandable. Next, move into machine learning and deep learning using free, high-quality courses. Fast.ai offers practical deep learning lessons that let you build real models quickly. Andrew Ng’s courses on Coursera provide excellent foundations. After gaining these basics, explore tools like PyTorch, Hugging Face, and techniques for building AI agents and web applications. The key is to learn by doing. Theory alone is not enough; every concept you study should be applied in a small project. This hands-on approach builds both skill and confidence.
+<!-- TESTIMONIALS -->
+<section class="testi-bg">
+  <div class="section-inner">
+    <span class="section-tag reveal">✦ Community Voices</span>
+    <h2 class="section-title reveal">Stories of <span class="gold">Transformation</span></h2>
+  </div>
+  <div class="testi-slider">
+    <div class="testi-track" id="testiTrack">
+      <!-- Cards duplicated for infinite scroll -->
+      <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-quote">"To-Sun AI changed everything for me. I went from knowing nothing about coding to launching my first app in 4 months. The Coding Mentor module is unlike anything else."</div><div class="testi-author"><div class="testi-avatar">👨‍💻</div><div><div class="testi-name">Ahmed K.</div><div class="testi-role">Software Developer & Founder</div></div></div></div>
+      <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-quote">"The Forex Growth Program gave me discipline I never had. It's not just about trading — it's about mastering yourself. I'm now consistently profitable."</div><div class="testi-author"><div class="testi-avatar">📊</div><div><div class="testi-name">Fatima R.</div><div class="testi-role">Forex Trader, Dubai</div></div></div></div>
+      <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-quote">"I used the University Success Builder to create a portfolio that got me accepted into a top European university. My application stood out globally."</div><div class="testi-author"><div class="testi-avatar">🎓</div><div><div class="testi-name">Marcus T.</div><div class="testi-role">University Student, Berlin</div></div></div></div>
+      <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-quote">"The CEO Dashboard transformed how I run my startup. I think strategically now. Every decision has data behind it. This is the tool leaders need."</div><div class="testi-author"><div class="testi-avatar">🧠</div><div><div class="testi-name">Layla M.</div><div class="testi-role">Startup CEO, London</div></div></div></div>
+      <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-quote">"The Telegram community alone is worth everything. Surrounded by motivated people every single day. Success accelerates when you find your circle."</div><div class="testi-author"><div class="testi-avatar">🌍</div><div><div class="testi-name">Omar S.</div><div class="testi-role">Entrepreneur, Lagos</div></div></div></div>
+      <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-quote">"From zero knowledge to running my own digital business in 6 months. The Founder Roadmap is step-by-step, no fluff, pure execution."</div><div class="testi-author"><div class="testi-avatar">🚀</div><div><div class="testi-name">Priya N.</div><div class="testi-role">Digital Founder, Mumbai</div></div></div></div>
+      <!-- Duplicate -->
+      <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-quote">"To-Sun AI changed everything for me. I went from knowing nothing about coding to launching my first app in 4 months. The Coding Mentor module is unlike anything else."</div><div class="testi-author"><div class="testi-avatar">👨‍💻</div><div><div class="testi-name">Ahmed K.</div><div class="testi-role">Software Developer & Founder</div></div></div></div>
+      <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-quote">"The Forex Growth Program gave me discipline I never had. It's not just about trading — it's about mastering yourself. I'm now consistently profitable."</div><div class="testi-author"><div class="testi-avatar">📊</div><div><div class="testi-name">Fatima R.</div><div class="testi-role">Forex Trader, Dubai</div></div></div></div>
+      <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-quote">"I used the University Success Builder to create a portfolio that got me accepted into a top European university. My application stood out globally."</div><div class="testi-author"><div class="testi-avatar">🎓</div><div><div class="testi-name">Marcus T.</div><div class="testi-role">University Student, Berlin</div></div></div></div>
+      <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-quote">"The CEO Dashboard transformed how I run my startup. I think strategically now. Every decision has data behind it. This is the tool leaders need."</div><div class="testi-author"><div class="testi-avatar">🧠</div><div><div class="testi-name">Layla M.</div><div class="testi-role">Startup CEO, London</div></div></div></div>
+      <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-quote">"The Telegram community alone is worth everything. Surrounded by motivated people every single day. Success accelerates when you find your circle."</div><div class="testi-author"><div class="testi-avatar">🌍</div><div><div class="testi-name">Omar S.</div><div class="testi-role">Entrepreneur, Lagos</div></div></div></div>
+      <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-quote">"From zero knowledge to running my own digital business in 6 months. The Founder Roadmap is step-by-step, no fluff, pure execution."</div><div class="testi-author"><div class="testi-avatar">🚀</div><div><div class="testi-name">Priya N.</div><div class="testi-role">Digital Founder, Mumbai</div></div></div></div>
+    </div>
+  </div>
+</section>
 
-Time management is critical because you are still students with school responsibilities. Protect your academics first — strong grades open doors and reduce pressure from family. Create a realistic daily schedule. Wake up early to finish homework, dedicate one focused hour after school to coding, and reserve deeper work for the evening, perhaps from 7 to 8:30 PM. Use the Pomodoro technique: work for 25 minutes, then take a short break. Plan your week every Sunday so you know exactly what project you will tackle. Limit distractions ruthlessly. Total weekly AI work should reach 10–15 hours, but never at the expense of sleep. Aim to sleep by 10 or 11 PM at the latest — a well-rested brain learns faster and generates better ideas. Exercise for at least 20 minutes a day, eat real food instead of constant junk snacks, and treat your body as the engine that powers your ambitions.
+<div class="divider"></div>
 
-Equally important is knowing what to avoid. The biggest dream-killers for teenagers are addictive short-form videos on TikTok and Instagram, which can easily consume hours that should be spent building. Gaming, especially competitive online games that demand several hours daily, is another major trap. Avoid the habit of jumping between topics without finishing projects — this creates the illusion of learning without real progress. Do not wait for the “perfect” laptop, perfect moment; start with whatever you have today. Steer clear of negative influences. Be cautious of expensive online courses. Finally, protect your health by avoiding all-nighters, poor nutrition, and lack of physical activity. 
+<!-- FOUNDER QUOTE -->
+<section class="founder-section">
+  <div class="section-inner">
+    <div class="founder-quote-wrap reveal">
+      <p class="founder-q">
+        "This is not motivation.<br/>
+        This is <span>transformation.</span><br/>
+        We are building leaders, founders,<br/>
+        and the next generation of creators."
+      </p>
+      <div class="founder-sig">— To-Sun AI · Founder's Message</div>
+    </div>
+  </div>
+</section>
 
-In conclusion, becoming an AI founder at your age is not only possible but highly achievable. You already have a powerful advantage — a group of motivated friends who can support and challenge one another. Focus on action over perfection, prioritize Python and practical AI skills, manage your time with discipline, and deliberately avoid the distractions and habits that derail progress. In two years, with consistent effort, you could have a working AI product, a strong portfolio on GitHub, and real experience solving problems. The world needs innovative AI solutions, including those created by young minds from Ethiopia and Africa. Start today: gather your friends, set up a shared group, install Python, and begin your first project together. The future belongs to those who build it. You are not “just teenagers” — you are the next generation of AI founders. Take the first step now, stay consistent, and in time you will look back and be proud of how you began. The journey starts with a single line of code.`;
+<div class="divider"></div>
 
-        const SCHEDULE_TEXT = `Daily Schedule for AI Founders (14-18 years)
+<!-- TELEGRAM CTA -->
+<section id="community" class="cta-section">
+  <div class="cta-inner">
+    <span class="section-tag reveal" style="display:block;text-align:center;margin-bottom:20px;">✦ Join The Movement</span>
+    <h2 class="cta-title reveal">JOIN THE<br/><span class="gold">MOVEMENT</span></h2>
+    <p class="cta-sub reveal">Surround yourself with people building the future. Knowledge multiplies when shared. Success accelerates when surrounded by the right people. This is your circle.</p>
+    <a href="https://t.me/To_Sun_AI" target="_blank" rel="noopener" class="btn-telegram reveal">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.01 13.617l-2.98-.938c-.647-.203-.66-.647.136-.956l11.647-4.49c.537-.194 1.006.131.88.988z"/></svg>
+      Join Telegram Channel
+    </a>
+    <p style="margin-top:20px;font-size:0.78rem;color:var(--text3);">Free to join. No excuses.</p>
+  </div>
+</section>
 
-6:00 AM – Wake up, pray/brush, healthy breakfast
-6:30 – 8:00 AM – School homework & study
-8:00 – 9:00 AM – Light exercise + break
-9:00 – 11:30 AM – Main AI time (2.5 hrs: learn + code)
-11:30 – 12:00 PM – Prepare + snack
-12:00 – 1:00 PM – School
-1:00 – 2:00 PM – Lunch + rest
-2:00 – 3:30 PM – AI project work (1.5 hrs)
-3:30 – 4:00 PM – Exercise / play
-4:00 – 5:30 PM – Finish school homework
-5:30 – 6:30 PM – Family time + dinner
-6:30 – 7:30 PM – Light AI review or team chat
-7:30 – 8:30 PM – Wind down (no heavy screens)
-9:00 PM – Sleep (9 hours)
+<div class="divider"></div>
 
-Total AI time: ~5 hours/day
-Use Pomodoro (25 min work + 5 min break). Phone away during AI blocks. School first. Stay consistent.
-Start tomorrow.`;
+<!-- VISION -->
+<section id="vision" class="vision-section">
+  <div class="section-inner">
+    <span class="section-tag reveal" style="display:block;text-align:center;margin-bottom:30px;">✦ Our Vision</span>
+    <div class="vision-big reveal">
+      We are building<br/>more than <span class="gold">AI</span>
+    </div>
+    <p class="section-desc reveal" style="margin:0 auto 60px;text-align:center;">We are building leaders, founders, and the next generation of creators who will shape the world.</p>
+    <div class="vision-lines">
+      <div class="vision-line reveal">Do not wait for opportunity — Create it</div>
+      <div class="vision-line reveal">Do not wait for success — Build it</div>
+      <div class="vision-line reveal">Do not wait for the future — Become it</div>
+    </div>
+  </div>
+</section>
 
-        async function sendMessage() {
-            const text = userInput.value.trim();
-            if (!text) return;
-            appendMessage(text, 'user-message');
-            userInput.value = '';
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <svg viewBox="0 0 56 56" width="42" height="42" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="28" cy="28" r="26" fill="none" stroke="rgba(196,158,73,0.3)" stroke-width="1"/>
+            <circle cx="28" cy="28" r="10" fill="none" stroke="#c49e49" stroke-width="2"/>
+            <path d="M28,18 L30,23 L35,25 L30,27 L28,32 L26,27 L21,25 L26,23 Z" fill="#c49e49" opacity="0.8"/>
+            <line x1="28" y1="2" x2="28" y2="10" stroke="#c49e49" stroke-width="1.5" opacity="0.5"/>
+            <line x1="28" y1="46" x2="28" y2="54" stroke="#c49e49" stroke-width="1.5" opacity="0.5"/>
+            <line x1="2" y1="28" x2="10" y2="28" stroke="#c49e49" stroke-width="1.5" opacity="0.5"/>
+            <line x1="46" y1="28" x2="54" y2="28" stroke="#c49e49" stroke-width="1.5" opacity="0.5"/>
+          </svg>
+          <div class="footer-logo-text">To-Sun <span>AI</span></div>
+        </div>
+        <div class="footer-tagline">Intelligence That Rises With You</div>
+        <p>Built for ambition. Built for discipline. Built for legacy. The world remembers creators. Be one.</p>
+      </div>
+      <div class="footer-links-group">
+        <h4>Platform</h4>
+        <ul>
+          <li><a href="#features">AI Study Assistant</a></li>
+          <li><a href="#features">Coding Mentor</a></li>
+          <li><a href="#features">Founder Roadmap</a></li>
+          <li><a href="#features">Forex Programs</a></li>
+        </ul>
+      </div>
+      <div class="footer-links-group">
+        <h4>Growth</h4>
+        <ul>
+          <li><a href="#features">CEO Dashboard</a></li>
+          <li><a href="#features">Productivity Tracker</a></li>
+          <li><a href="#features">University Builder</a></li>
+          <li><a href="#roadmap">Success Roadmap</a></li>
+        </ul>
+      </div>
+      <div class="footer-links-group">
+        <h4>Community</h4>
+        <ul>
+          <li><a href="#community">Telegram Channel</a></li>
+          <li><a href="#about">About To-Sun AI</a></li>
+          <li><a href="#vision">Our Vision</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 To-Sun AI. All rights reserved.</p>
+      <div class="footer-bottom-taglines">
+        <span>Built for Students.</span>
+        <span>Built for Dreamers.</span>
+        <span>Built for Future Founders.</span>
+      </div>
+    </div>
+    <div class="footer-motto">
+      <p><strong>Your Future Starts Now.</strong></p>
+    </div>
+  </div>
+</footer>
 
-            const loadingId = 'loading-' + Date.now();
-            const loadingMsg = document.createElement('div');
-            loadingMsg.className = 'message ai-message';
-            loadingMsg.id = loadingId;
-            loadingMsg.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div>';
-            chatBox.appendChild(loadingMsg);
-            chatBox.scrollTop = chatBox.scrollHeight;
+<script>
+// LOADING
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loading').classList.add('hidden');
+  }, 2200);
+});
 
-            const lower = text.toLowerCase();
-            
-            // 1. Greeting
-            if (lower === 'hi' || lower === 'hello') {
-                setTimeout(() => {
-                    document.getElementById(loadingId).innerText = "I am To-Sun AI used for students and young people. Created by Abraham muruts student of Don Bosco High School. Then what do you want? Your future starts now!";
-                    chatBox.scrollTop = chatBox.scrollHeight;
-                }, 600);
-                return;
-            }
+// THEME TOGGLE
+const toggle = document.getElementById('themeToggle');
+toggle.addEventListener('click', () => {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+});
 
-            // 2. Schedule Request
-            if (lower.includes('daily schedule')) {
-                setTimeout(() => {
-                    document.getElementById(loadingId).innerText = SCHEDULE_TEXT;
-                    chatBox.scrollTop = chatBox.scrollHeight;
-                }, 600);
-                return;
-            }
+// CURSOR
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx+'px'; cursor.style.top = my+'px'; });
+(function animRing() {
+  rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+  ring.style.left = rx+'px'; ring.style.top = ry+'px';
+  requestAnimationFrame(animRing);
+})();
 
-            // 3. AI Founder Trigger
-            if (lower.includes('i want to be an ai founder')) {
-                setTimeout(() => {
-                    document.getElementById(loadingId).innerText = "How old are you?";
-                    chatBox.scrollTop = chatBox.scrollHeight;
-                }, 600);
-                return;
-            }
+// PARTICLES
+const canvas = document.getElementById('particles-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+window.addEventListener('resize', resize); resize();
+function createParticle() {
+  return { x: Math.random()*canvas.width, y: Math.random()*canvas.height, vx: (Math.random()-0.5)*0.3, vy: (Math.random()-0.5)*0.3, r: Math.random()*2+0.5, life: Math.random()*100+50, maxLife: Math.random()*100+50 };
+}
+for(let i=0;i<60;i++) particles.push(createParticle());
+function animParticles() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  const isDark = document.documentElement.getAttribute('data-theme')==='dark';
+  const c = isDark ? '0,140,255' : '196,158,73';
+  particles.forEach((p,i) => {
+    p.x += p.vx; p.y += p.vy; p.life--;
+    const alpha = (p.life/p.maxLife)*0.5;
+    ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle = `rgba(${c},${alpha})`; ctx.fill();
+    // Lines to nearby
+    particles.forEach((q,j) => { if(i<j){ const dx=p.x-q.x,dy=p.y-q.y,d=Math.sqrt(dx*dx+dy*dy); if(d<120){ ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y); ctx.strokeStyle=`rgba(${c},${0.08*(1-d/120)})`; ctx.lineWidth=0.5; ctx.stroke(); }}});
+    if(p.life<=0) particles[i]=createParticle();
+  });
+  requestAnimationFrame(animParticles);
+}
+animParticles();
 
-            // 4. Age Guide Trigger
-            const ages = ['14', '15', '16', '17', '18'];
-            if (ages.some(age => lower.includes(age))) {
-                setTimeout(() => {
-                    document.getElementById(loadingId).innerText = GUIDE_TEXT;
-                    chatBox.scrollTop = chatBox.scrollHeight;
-                }, 600);
-                return;
-            }
+// REVEAL ON SCROLL
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+reveals.forEach(r => observer.observe(r));
 
-            // 5. Default AI logic
-            try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: text }] }],
-                        systemInstruction: {
-                            parts: [{ text: "You are To-Sun AI, created by Abraham Muruts. You mentor students in Ethiopia and beyond to become AI founders and millionaires. Be encouraging, specific about Python/AI, and emphasize disciplined routines." }]
-                        }
-                    })
-                });
-                const data = await response.json();
-                document.getElementById(loadingId).innerText = data.candidates?.[0]?.content?.parts?.[0]?.text || "The stars are cloudy. Try again.";
-            } catch (error) {
-                document.getElementById(loadingId).innerText = "Solar connection lost.";
-            }
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
+// FEATURE CARDS
+document.querySelectorAll('.feature-card').forEach(card => observer.observe(card));
 
-        function appendMessage(text, className) {
-            const div = document.createElement('div');
-            div.className = `message ${className}`;
-            div.innerText = text;
-            chatBox.appendChild(div);
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
+// ROADMAP ANIMATION
+const roadmapSection = document.getElementById('roadmap');
+const roadmapFill = document.getElementById('roadmapFill');
+const steps = [0,1,2,3,4].map(i=>document.getElementById('rs'+i));
+let roadmapAnimated = false;
+const roadmapObserver = new IntersectionObserver((entries) => {
+  if(entries[0].isIntersecting && !roadmapAnimated) {
+    roadmapAnimated = true;
+    roadmapFill.classList.add('animated');
+    steps.forEach((s,i) => setTimeout(()=>s.classList.add('lit'), i*400+300));
+  }
+}, { threshold: 0.3 });
+roadmapObserver.observe(roadmapSection);
 
-        window.onload = createStars;
-    </script>
+// STATS COUNTER
+const statNums = document.querySelectorAll('.stat-num');
+const statsObserver = new IntersectionObserver((entries) => {
+  if(entries[0].isIntersecting) {
+    statNums.forEach(el => {
+      const target = +el.dataset.target;
+      let current = 0;
+      const step = target / 60;
+      const timer = setInterval(() => {
+        current = Math.min(current+step, target);
+        el.textContent = target >= 1000 ? Math.floor(current).toLocaleString()+'+' : Math.floor(current)+(target===100?'%':'+');
+        if(current>=target) clearInterval(timer);
+      }, 25);
+    });
+    statsObserver.disconnect();
+  }
+}, {threshold:0.5});
+statsObserver.observe(document.querySelector('.hero-stats'));
+</script>
 </body>
 </html>
